@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="text-align:center; padding: 3rem;">
+    <h1>Welcome to Piki Ora Medical Centre</h1>
+    <p style="margin: 1rem 0; color: #555;">Book appointments with our doctors quickly and easily.</p>
+    <a href="{% url 'register' %}" class="btn btn-green">Register</a>
+    <a href="{% url 'login' %}" class="btn btn-gray" style="margin-left:0.5rem">Login</a>
+</div>
+{% endblock %}

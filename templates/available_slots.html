@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Available slots — Dr. {{ doctor.name }}</h1>
+<div class="card">
+    {% if slots %}
+    <table>
+        <tr><th>Date</th><th>Start</th><th>End</th><th></th></tr>
+        {% for slot in slots %}
+        <tr>
+            <td>{{ slot.date }}</td>
+            <td>{{ slot.start_time }}</td>
+            <td>{{ slot.end_time }}</td>
+            <td><a href="{% url 'book_appointment' slot.id %}" class="btn btn-green">Book</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No available slots for this doctor.</p>
+    {% endif %}
+    <br><a href="{% url 'doctor_list' %}" class="btn btn-gray">Back to doctors</a>
+</div>
+{% endblock %}

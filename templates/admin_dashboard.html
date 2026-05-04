@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+<div style="display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; margin-bottom:1.5rem;">
+    <div class="card" style="text-align:center;">
+        <h2>{{ total_doctors }}</h2><p>Doctors</p>
+    </div>
+    <div class="card" style="text-align:center;">
+        <h2>{{ total_slots }}</h2><p>Slots</p>
+    </div>
+    <div class="card" style="text-align:center;">
+        <h2>{{ total_appointments }}</h2><p>Confirmed bookings</p>
+    </div>
+    <div class="card" style="text-align:center;">
+        <h2>{{ total_patients }}</h2><p>Patients</p>
+    </div>
+</div>
+<div class="card">
+    <h2>Recent appointments</h2>
+    <table>
+        <tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr>
+        {% for appt in recent_appointments %}
+        <tr>
+            <td>{{ appt.patient.username }}</td>
+            <td>Dr. {{ appt.slot.doctor.name }}</td>
+            <td>{{ appt.slot.date }}</td>
+            <td><span class="badge {% if appt.status == 'confirmed' %}badge-green{% else %}badge-red{% endif %}">{{ appt.status }}</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No appointments yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

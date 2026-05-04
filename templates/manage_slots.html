@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Manage Appointment Slots</h1>
+<a href="{% url 'add_slot' %}" class="btn btn-green" style="margin-bottom:1rem;">Add slot</a>
+<div class="card">
+    <table>
+        <tr><th>Doctor</th><th>Date</th><th>Start</th><th>End</th><th>Status</th><th></th></tr>
+        {% for slot in slots %}
+        <tr>
+            <td>Dr. {{ slot.doctor.name }}</td>
+            <td>{{ slot.date }}</td>
+            <td>{{ slot.start_time }}</td>
+            <td>{{ slot.end_time }}</td>
+            <td>
+                <span class="badge {% if slot.is_booked %}badge-red{% else %}badge-green{% endif %}">
+                    {% if slot.is_booked %}Booked{% else %}Available{% endif %}
+                </span>
+            </td>
+            <td>
+                <form method="post" action="{% url 'delete_slot' slot.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button class="btn btn-red" onclick="return confirm('Delete slot?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No slots added yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

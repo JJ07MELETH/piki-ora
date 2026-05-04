@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome, {{ user.username }}</h1>
+<div class="card">
+    <h2>Your upcoming appointments</h2>
+    {% if appointments %}
+    <table>
+        <tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th></th></tr>
+        {% for appt in appointments %}
+        <tr>
+            <td>Dr. {{ appt.slot.doctor.name }}</td>
+            <td>{{ appt.slot.date }}</td>
+            <td>{{ appt.slot.start_time }} – {{ appt.slot.end_time }}</td>
+            <td><span class="badge badge-green">{{ appt.status }}</span></td>
+            <td>
+                <form method="post" action="{% url 'cancel_appointment' appt.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-red" onclick="return confirm('Cancel this appointment?')">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No upcoming appointments. <a href="{% url 'doctor_list' %}">Book one now</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

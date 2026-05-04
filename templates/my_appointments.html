@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>My Appointments</h1>
+<div class="card">
+    {% if appointments %}
+    <table>
+        <tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th></th></tr>
+        {% for appt in appointments %}
+        <tr>
+            <td>Dr. {{ appt.slot.doctor.name }}</td>
+            <td>{{ appt.slot.date }}</td>
+            <td>{{ appt.slot.start_time }} – {{ appt.slot.end_time }}</td>
+            <td>
+                <span class="badge {% if appt.status == 'confirmed' %}badge-green{% else %}badge-red{% endif %}">
+                    {{ appt.status }}
+                </span>
+            </td>
+            <td>
+                {% if appt.status == 'confirmed' %}
+                <form method="post" action="{% url 'cancel_appointment' appt.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-red" onclick="return confirm('Cancel?')">Cancel</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You have no appointments yet. <a href="{% url 'doctor_list' %}">Book one</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}
